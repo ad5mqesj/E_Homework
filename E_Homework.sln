@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33723.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "E_Homework", "E_Homework\E_Homework.csproj", "{5611FE4D-3B19-4BC6-A703-29949987B155}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "E_Homework.DTO", "E_Homework.DTO\E_Homework.DTO.csproj", "{FDDC7D13-B654-4D7E-A62F-FC83F80BC835}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "E_Homework.DTO.Test", "E_Homework.DTO.Test\E_Homework.DTO.Test.csproj", "{55BAE638-47A7-4870-AB28-773F6BB856F9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "E_Homework.UnitTest", "E_Homework.UnitTest\E_Homework.UnitTest.csproj", "{D06E76B6-7137-4638-87A3-547ADED0877F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F480EE88-CCF8-4529-A056-8593A979B199}"
+	ProjectSection(SolutionItems) = preProject
+		Cargo- DeviceDataTakeHomeAssignment (002).pdf = Cargo- DeviceDataTakeHomeAssignment (002).pdf
+		DeviceDataFoo1.json = DeviceDataFoo1.json
+		DeviceDataFoo2.json = DeviceDataFoo2.json
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5611FE4D-3B19-4BC6-A703-29949987B155}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5611FE4D-3B19-4BC6-A703-29949987B155}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5611FE4D-3B19-4BC6-A703-29949987B155}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5611FE4D-3B19-4BC6-A703-29949987B155}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDDC7D13-B654-4D7E-A62F-FC83F80BC835}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDDC7D13-B654-4D7E-A62F-FC83F80BC835}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDDC7D13-B654-4D7E-A62F-FC83F80BC835}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDDC7D13-B654-4D7E-A62F-FC83F80BC835}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55BAE638-47A7-4870-AB28-773F6BB856F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55BAE638-47A7-4870-AB28-773F6BB856F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55BAE638-47A7-4870-AB28-773F6BB856F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55BAE638-47A7-4870-AB28-773F6BB856F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D06E76B6-7137-4638-87A3-547ADED0877F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D06E76B6-7137-4638-87A3-547ADED0877F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D06E76B6-7137-4638-87A3-547ADED0877F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D06E76B6-7137-4638-87A3-547ADED0877F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C706A353-D9AE-4FDC-AFD7-B170CDD0CEBE}
+	EndGlobalSection
+EndGlobal

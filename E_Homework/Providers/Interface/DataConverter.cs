@@ -5,12 +5,25 @@ namespace E_Homework.Providers.Interface
 {
     public class DataConverter : IDataConverter
     {
+        #region PrivateProperties
+        private readonly ILogger<DataConverter> logger;
+        #endregion PrivateProperties
+
+        #region Construcor(s)
+        public DataConverter (ILogger<DataConverter> _logger)
+        {
+            this.logger = _logger;
+        }
+        #endregion Construcor(s)
+
         public IEnumerable<CommonDeviceData> ConvertData(Object data)
         {
             //make sure input is one of the expected formats
             if (data is not Foo1 && data is not Foo2)
+            {
+                logger.LogError($"Input data type not recognized {data.GetType().ToString()}");
                 return Enumerable.Empty<CommonDeviceData>();
-            
+            }
             if (data is Foo1)
                 return fromFoo1(data as Foo1);
 
@@ -20,8 +33,10 @@ namespace E_Homework.Providers.Interface
         private IEnumerable<CommonDeviceData> fromFoo1 (Foo1 ? data)
         {
             if (data == null)
+            {
+                logger.LogError("Data recognized as Foo1, but fails to cast");
                 return Enumerable.Empty<CommonDeviceData>();
-
+            }
             List<CommonDeviceData> returnData = new List<CommonDeviceData>();
             foreach (Tracker t in data.Trackers)
             {
@@ -62,7 +77,10 @@ namespace E_Homework.Providers.Interface
         private IEnumerable<CommonDeviceData> fromFoo2(Foo2? data)
         {
             if (data == null)
+            {
+                logger.LogError("Data recognized as Foo2, but fails to cast");
                 return Enumerable.Empty<CommonDeviceData>();
+            }
 
             List<CommonDeviceData> returnData = new List<CommonDeviceData>();
             foreach (Device d in data.Devices) 

@@ -10,6 +10,9 @@
     <Content Include="..\DeviceDataFoo1.json" Link="DeviceDataFoo1.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\DeviceDataFoo2.json" Link="DeviceDataFoo2.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

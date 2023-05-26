@@ -10,6 +10,7 @@ namespace E_Homework.Providers.Interface
             //make sure input is one of the expected formats
             if (data is not Foo1 && data is not Foo2)
                 return Enumerable.Empty<CommonDeviceData>();
+            
             if (data is Foo1)
                 return fromFoo1(data as Foo1);
 
@@ -64,6 +65,39 @@ namespace E_Homework.Providers.Interface
                 return Enumerable.Empty<CommonDeviceData>();
 
             List<CommonDeviceData> returnData = new List<CommonDeviceData>();
+            foreach (Device d in data.Devices) 
+            {
+                CommonDeviceData cd = new CommonDeviceData()
+                {
+                    CompanyId = data.CompanyId,
+                    CompanyName = data.Company,
+                    DeviceId = d.DeviceID,
+                    DeviceName = d.Name
+                };
+                cd.FirstReadingDtm = (from s in d.SensorData select s.DateTime).Min().DateTime;
+                cd.LastReadingDtm = (from s in d.SensorData select s.DateTime).Max().DateTime;
+
+                var temps = (from s in d.SensorData where s.SensorType.Equals("TEMP") select s);
+                cd.TemperatureCount = temps.Count();
+                cd.AverageTemperature = 0.0;
+
+                foreach (F2Sensor s in temps)
+                {
+                    cd.AverageTemperature += s.Value;
+                }
+                cd.AverageTemperature = cd.AverageTemperature / (double)cd.TemperatureCount;
+
+                var hums = (from s in d.SensorData where s.SensorType.Equals("HUM") select s);
+                cd.HumidityCount = hums.Count();
+
+                cd.AverageHumdity = 0.0;
+                foreach (F2Sensor s in hums)
+                {
+                    cd.AverageHumdity += s.Value;
+                }
+                cd.AverageHumdity = cd.AverageHumdity / (double)cd.HumidityCount;
+                returnData.Add(cd);
+            }
 
             return returnData;
         }

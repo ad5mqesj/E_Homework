@@ -11,17 +11,22 @@ using Xunit;
 using E_Homework.DTO.Models;
 using E_Homework.DTO.Validators;
 using System.IO;
+using System.Runtime.Intrinsics.Arm;
 
 namespace E_Homework.DTO.Test
 {
     public class Foo1ValidatorTests
     {
         private readonly string foo1File = "DeviceDataFoo1.json";
+        private JsonSerializerOptions options;
+
+        public Foo1ValidatorTests()
+        {
+            options = new JsonSerializerOptions() { WriteIndented = true };
+            options.Converters.Add(new CustomDateTimeConverter("MM-dd-yyyy H:mm:ss"));
+        }
         private Foo1 GetValidFoo1()
         {
-            var options = new JsonSerializerOptions() { WriteIndented = true };
-            options.Converters.Add(new CustomDateTimeConverter("MM-dd-yyyy H:mm:ss"));
-
             var json = File.ReadAllText(foo1File);
             Foo1 retf = JsonSerializer.Deserialize<Foo1>(json, options);
             return retf;
@@ -34,6 +39,16 @@ namespace E_Homework.DTO.Test
             var validator = new Foo1Validator();
             var result = validator.Validate(f1);
             result.IsValid.Should().BeTrue();
+        }
+
+        [Fact]
+        public void SerDesSuccess()
+        {
+            Foo1 retf = GetValidFoo1();
+            var js = JsonSerializer.Serialize<Foo1>(retf, options);
+            var fd = JsonSerializer.Deserialize<Foo1>(js, options);
+            retf.ShouldDeepEqual(fd);
+
         }
 
         [Fact]

@@ -5,21 +5,27 @@ using E_Homework.DTO;
 using E_Homework.DTO.Models;
 using E_Homework.DTO.Validators;
 using E_Homework.Providers.Implementation;
+using Microsoft.AspNetCore.Authorization;
 
 namespace E_Homework.Controllers
 {
-    [Route("api/[controller]")]
+#if NORMALAUTH
+    [Authorize]
+#endif
+    [Route("[controller]")]
     [ApiController]
+#pragma warning disable CS8604
+#pragma warning disable C1519
     public class ConvertDataController : ControllerBase
     {
         #region PrivateProperties
-        private ILogger logger;
+        private ILogger<ConvertDataController> logger;
         private IDataConverter converter;
         private JsonSerializerOptions options;
         #endregion PrivateProperties
 
         #region Construcor(s)
-        public ConvertDataController(ILogger _logger, IDataConverter _conv)
+        public ConvertDataController(ILogger<ConvertDataController> _logger, IDataConverter _conv)
         {
             logger = _logger;
             converter = _conv;
@@ -33,6 +39,7 @@ namespace E_Homework.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<CommonDeviceData>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+
         public IActionResult Convert([FromBody]  string jsonObject)
         {
             //try to convert to Foo1 and then Foo2, if neithe match then bail

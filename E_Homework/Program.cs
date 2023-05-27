@@ -27,7 +27,7 @@ IConfiguration config = new ConfigurationBuilder()
     .AddEnvironmentVariables()
     .Build();
 
-CommonSettings settings = config.GetRequiredSection(CommonSettings.sectionName).Get<CommonSettings>();
+CommonSettings settings = config.GetRequiredSection(CommonSettings.sectionName).Get<CommonSettings>() ?? new CommonSettings();
 builder.Services.AddSingleton<CommonSettings>(settings);
 
 //Authentication
@@ -38,7 +38,7 @@ builder.Services.AddAuthentication(sharedoptions =>
 })
            .AddJwtBearer(options =>
            {
-               options.Authority = settings.AdInstance;
+               options.Authority = settings.Instance;
                options.TokenValidationParameters.ValidateAudience = false;
                options.TokenValidationParameters.IssuerValidator = AadIssuerValidator.GetAadIssuerValidator(options.Authority).Validate;
                options.RequireHttpsMetadata = false;

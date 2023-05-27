@@ -40,7 +40,7 @@ namespace E_Homework.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<CommonDeviceData>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
-        public IActionResult Convert([FromBody]  string jsonObject)
+        public IActionResult Convert([FromBody] object jsonObject)
         {
             //try to convert to Foo1 and then Foo2, if neithe match then bail
             IActionResult? result;
@@ -49,7 +49,7 @@ namespace E_Homework.Controllers
             {
                 var validator = new Foo1Validator();
 
-                data = JsonSerializer.Deserialize<Foo1>(jsonObject, options);
+                data = JsonSerializer.Deserialize<Foo1>(jsonObject.ToString(), options);
                 if (data != null)
                 {
                     var vresult = validator.Validate(data as Foo1);
@@ -66,7 +66,7 @@ namespace E_Homework.Controllers
                 try
                 {
                     var validator = new Foo2Validator();
-                    data = JsonSerializer.Deserialize<Foo2>(jsonObject, options);
+                    data = JsonSerializer.Deserialize<Foo2>(jsonObject.ToString(), options);
                     if (data != null)
                     {
                         var vresult = validator.Validate(data as Foo2);
@@ -85,7 +85,7 @@ namespace E_Homework.Controllers
                 result = BadRequest(ModelState);
             }
 
-            IEnumerable < CommonDeviceData > convData = converter.ConvertData(data);
+            IEnumerable<CommonDeviceData> convData = converter.ConvertData(data);
             result = Ok(convData);
             return result;
         }

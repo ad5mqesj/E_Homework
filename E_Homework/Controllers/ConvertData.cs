@@ -10,7 +10,7 @@ namespace E_Homework.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ConvertData : ControllerBase
+    public class ConvertDataController : ControllerBase
     {
         #region PrivateProperties
         private ILogger logger;
@@ -19,7 +19,7 @@ namespace E_Homework.Controllers
         #endregion PrivateProperties
 
         #region Construcor(s)
-        public ConvertData (ILogger _logger, IDataConverter _conv)
+        public ConvertDataController(ILogger _logger, IDataConverter _conv)
         {
             logger = _logger;
             converter = _conv;
@@ -31,7 +31,6 @@ namespace E_Homework.Controllers
         #endregion Construcor(s)
 
         [HttpPost]
-        
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<CommonDeviceData>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Convert([FromBody]  string jsonObject)

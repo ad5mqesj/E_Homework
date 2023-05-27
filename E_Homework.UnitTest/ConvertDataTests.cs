@@ -17,16 +17,16 @@ namespace E_Homework.UnitTest
 {
     public class ConvertDataTests
     {
-        private readonly ILogger<ConvertData> logger;
-        private readonly ConvertData dataConvertController;
+        private readonly ILogger<ConvertDataController> logger;
+        private readonly ConvertDataController dataConvertController;
         private Mock<IDataConverter> mockCnvProvider;
 
         public ConvertDataTests()
         {
-            logger = new LoggerFactory().CreateLogger<ConvertData>();
+            logger = new LoggerFactory().CreateLogger<ConvertDataController>();
             var moqProvider = new MoqProvider();
             this.mockCnvProvider = moqProvider.MockConverterProvider;
-            this.dataConvertController = new ConvertData(logger, this.mockCnvProvider.Object);
+            this.dataConvertController = new ConvertDataController(logger, this.mockCnvProvider.Object);
         }
 
         [Theory]

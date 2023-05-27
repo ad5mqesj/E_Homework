@@ -1,4 +1,6 @@
 ﻿
+using System.Text.Json;
+
 namespace E_Homework.DTO.Models
 {
     public class CommonDeviceData
@@ -18,6 +20,12 @@ namespace E_Homework.DTO.Models
 
         #endregion PublicProperties
 
+        #region PublicMethod
+        public override string ToString()
+        {
+            return JsonSerializer.Serialize< CommonDeviceData>(this); 
+        }
+        #endregion PublicMethod
     }
 
 }

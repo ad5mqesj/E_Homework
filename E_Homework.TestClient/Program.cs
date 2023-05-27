@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
 using E_Homework.DTO.Models;
+using System.Collections.Generic;
 
 namespace E_Homework.TestClient
 {
@@ -16,17 +17,16 @@ namespace E_Homework.TestClient
         public static Serilog.ILogger? Logger { get; private set; }
         static async Task<int> Main(string[] args)
         {
-            //var config = new ConfigurationBuilder()
-            //  .AddEnvironmentVariables()
-            //  .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-            //  .Build();
-            //Logger = Log.Logger = new LoggerConfiguration()
-            //    .ReadFrom.Configuration(config, "Serilog")
-            //    .Enrich.FromLogContext()
-            //    .CreateLogger();
+            var config = new ConfigurationBuilder()
+              .AddEnvironmentVariables()
+              .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+              .Build();
+            Logger = Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(config, "Serilog")
+                .Enrich.FromLogContext()
+                .CreateLogger();
 
-            //Options options = config.GetRequiredSection("AzureAD").Get<Options>();
-            Options options = new Options();
+            Options options = config.GetRequiredSection("AzureAD").Get<Options>();
             Parser.Default.ParseArguments<Options>(args)
                 .WithParsed<Options>(op =>
                 {
@@ -34,34 +34,39 @@ namespace E_Homework.TestClient
                     options.InputFile = op.InputFile;
                 });
 
-            //string bearertoken = GetAuthToken(options, Logger).Result;
-            //if (string.IsNullOrEmpty(bearertoken))
-            //{
-            //    Logger?.Error("No teken was returned");
-            //    Console.WriteLine("No token - exiting");
-            //    return -1;
-            //}
-
+#if NORMALAUTH
+            string bearertoken = GetAuthToken(options, Logger).Result;
+            if (string.IsNullOrEmpty(bearertoken))
+            {
+                Logger?.Error("No teken was returned");
+                Console.WriteLine("No token - exiting");
+                return -1;
+            }
+#endif
             HttpClient client = new HttpClient();
+#if NORMALAUTH
 
-            //var defaultRequestHeaders = client.DefaultRequestHeaders;
-            //if (defaultRequestHeaders.Accept == null || !defaultRequestHeaders.Accept.Any(m => m.MediaType == "application/json"))
-            //{
-            //    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            //}
-            //defaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearertoken);
+            var defaultRequestHeaders = client.DefaultRequestHeaders;
+            if (defaultRequestHeaders.Accept == null || !defaultRequestHeaders.Accept.Any(m => m.MediaType == "application/json"))
+            {
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            }
+            defaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearertoken);
+#endif
             var url = options.Converter.EndsWith("/") ? options.Converter.Remove(options.Converter.Length - 1, 1) : options.Converter;
 
-            Uri uri = new Uri($"{url}/api/ConvertData");
+            Uri uri = new Uri($"{url}/ConvertData");
             string data = File.ReadAllText(options.InputFile);
             HttpResponseMessage response = await client.PostAsJsonAsync(uri, data);
             if (response.IsSuccessStatusCode)
             {
                 string responseBody = await response.Content.ReadAsStringAsync();
-                IEnumerable<CommonDeviceData> cdl = JsonSerializer.Deserialize<IEnumerable<CommonDeviceData>>(responseBody);
-                foreach (CommonDeviceData cd in cdl)
-                    Console.WriteLine(cd);
-
+                IEnumerable<CommonDeviceData>? cdl = response.Content.ReadFromJsonAsync<List<CommonDeviceData>>().Result;
+                if (cdl != null)
+                    foreach (CommonDeviceData cd in cdl)
+                        Console.WriteLine(cd.ToString());
+                Console.WriteLine("Press enter to exit");
+                Console.ReadLine();
             }
             else
                 Console.WriteLine($"ConvertData failed : {response.StatusCode}");

@@ -48,7 +48,7 @@ namespace E_Homework.Controllers
                 {
                     var vresult = validator.Validate(data as Foo1);
                     if (!vresult.IsValid)
-                        return BadRequest(vresult);
+                        data = null;
                 }
             }
             catch (Exception e)
